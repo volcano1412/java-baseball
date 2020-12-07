@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class LogicTest {
@@ -51,7 +52,6 @@ class LogicTest {
 	Set<Integer> inputNumbers = new LinkedHashSet<Integer>();
 	int ballCount;
 	int strikeCount;
-	int sameIndexCount;
 
 	@BeforeEach
 	void setInputValue() {
@@ -63,13 +63,13 @@ class LogicTest {
 		inputNumbers.add(1);
 		ballCount = 0;
 		strikeCount = 0;
-		sameIndexCount = 0;
 	}
 
 
 	@Test
 	@DisplayName("정답체크 : 스트라이크")
 	void strikeCheckTest() {
+
 		Iterator iter1 = numbers.iterator();
 		Iterator iter2 = inputNumbers.iterator();
 		while (iter1.hasNext()) {
@@ -112,6 +112,15 @@ class LogicTest {
 		if (a == b) {
 			ballCount++;
 		}
+	}
+
+	@ParameterizedTest
+	@DisplayName("게임결과판단")
+	@CsvSource(value = {"1:1"}, delimiter = ':')
+	void gameResult(String ball, String strike) {
+		int ballValue = Integer.parseInt(ball);
+		int strikeValue = Integer.parseInt(strike);
+		assertThat(Logic.gameResult(ballValue,strikeValue).getTextData()).isEqualTo("1 볼 1 스트라이");
 	}
 
 
