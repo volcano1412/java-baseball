@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,17 +31,18 @@ class LogicTest {
 	@DisplayName("입력 값 splite")
 	@ParameterizedTest
 	@ValueSource(strings = {"4 6 2"})
-	void inputSplite(String input) {
-		String[] arrayInput = input.split(" ");
-		int[] arrIntInput = new int[3];
+	void inputSpliteTest(String input) {
+		Set<Integer> inputNum = new LinkedHashSet<Integer>();
 
-		for(int i = 0; i < arrayInput.length; i++) {
-			arrIntInput[i] = Integer.parseInt(arrayInput[i]);
+		input = input.replaceAll(" ", "");
+
+		for(int i = 0; i < input.length(); i++) {
+			inputNum.add(Integer.parseInt(String.valueOf(input.charAt(i))));
 		}
 
-		assertThat(arrIntInput)
+		assertThat(inputNum)
 			.contains(4)
-			.hasSize(arrIntInput.length + 1);
+			.hasSize(inputNum.size() + 1);
 
 	}
 
