@@ -17,7 +17,7 @@ public class baseballMain {
 
 		while (dto.getStatusFlag() != "3") {
 			dto = viewUI.baseballPrint(dto);
-			dto = logic.logic(dto);
+			dto = logic.statusSort(dto);
 		}
 
 	}
