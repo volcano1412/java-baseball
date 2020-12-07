@@ -19,12 +19,11 @@ class LogicTest {
 	@DisplayName("번호생성")
 	public void numberCreate() {
 		Set<Integer> numbers = new HashSet<Integer>();
-		for(;numbers.size() < 3;) {
+		while (numbers.size() < 3) {
 			int num = (int)((Math.random() * 100) % 8 + 1);
 			numbers.add(num);
 		}
-		assertThat(numbers.size())
-			.isEqualTo(numbers.size() + 1);
+		assertThat(numbers.size()).isEqualTo(numbers.size() + 1);
 	}
 
 
@@ -47,15 +46,21 @@ class LogicTest {
 
 	private int[] inputValue;		//화면에서 받은 값
 	private int[] resultValue;		//정답 값
-
+	int strikes;
+	int strikeCount;
+	int count;
+	int correctNumber;
 
 	@BeforeEach
 	void setInputValue() {
 		inputValue = new int[] {1, 2, 3};
 		resultValue = new int[] {4, 5, 3};
+		count = 0;
+		strikeCount = 0;
+		strikes = 0;
+		correctNumber = 0;
 	}
-	int strikes = 0;
-	int correctNumber = 0;
+
 
 	@Test
 	@DisplayName("정답체크 : 스트라이크")
@@ -68,8 +73,7 @@ class LogicTest {
 		assertThat(strikes).isEqualTo(2);
 	}
 
-	int count = 0;
-	int strikeCount = 0;
+
 
 	@Test
 	@DisplayName("정답체크")

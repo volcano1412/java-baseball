@@ -4,7 +4,7 @@ import domain.Logic;
 import model.BaseballDto;
 import view.ViewUI;
 
-public class MainController {
+public class baseballMain {
 	public static void main(String[] args) {
 
 		BaseballDto dto = new BaseballDto();
@@ -15,7 +15,7 @@ public class MainController {
 		dto.setStatusFlag("0");
 		dto.setTextData("숫자를입력해주세요 : ");
 
-		for (;dto.getStatusFlag() != "3";) {
+		while (dto.getStatusFlag() != "3") {
 			dto = viewUI.baseballPrint(dto);
 			dto = logic.logic(dto);
 		}
