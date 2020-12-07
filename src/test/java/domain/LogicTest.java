@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +20,7 @@ class LogicTest {
 	@Test
 	@DisplayName("번호생성")
 	public void numberCreate() {
-		Set<Integer> numbers = new HashSet<Integer>();
+		Set<Integer> numbers = new LinkedHashSet<Integer>();
 		while (numbers.size() < 3) {
 			int num = (int)((Math.random() * 100) % 8 + 1);
 			numbers.add(num);
@@ -46,73 +47,72 @@ class LogicTest {
 
 	}
 
-	private int[] inputValue;		//화면에서 받은 값
-	private int[] resultValue;		//정답 값
-	int strikes;
+	Set<Integer> numbers = new LinkedHashSet<Integer>();
+	Set<Integer> inputNumbers = new LinkedHashSet<Integer>();
+	int ballCount;
 	int strikeCount;
-	int count;
-	int correctNumber;
+	int sameIndexCount;
 
 	@BeforeEach
 	void setInputValue() {
-		inputValue = new int[] {1, 2, 3};
-		resultValue = new int[] {4, 5, 3};
-		count = 0;
+		numbers.add(1);
+		numbers.add(2);
+		numbers.add(3);
+		inputNumbers.add(4);
+		inputNumbers.add(3);
+		inputNumbers.add(1);
+		ballCount = 0;
 		strikeCount = 0;
-		strikes = 0;
-		correctNumber = 0;
+		sameIndexCount = 0;
 	}
 
 
 	@Test
 	@DisplayName("정답체크 : 스트라이크")
-	void strikeCheck() {
-		for (int i = 0; i <= 2; i++) {
-			if (inputValue[i] == resultValue[i]) {
-				strikes++;
-			}
+	void strikeCheckTest() {
+		Iterator iter1 = numbers.iterator();
+		Iterator iter2 = inputNumbers.iterator();
+		while (iter1.hasNext()) {
+			compareStrikeTest((int)iter1.next(), (int)iter2.next());
 		}
-		assertThat(strikes).isEqualTo(2);
+		assertThat(strikeCount).isEqualTo("2");
 	}
 
-
-
-	@Test
-	@DisplayName("정답체크")
-	void strikeChkTest() {
-		List<String> numbers1 = new ArrayList<>();
-		List<String> numbers2 = new ArrayList<>();
-
-		numbers1.add("1");
-		numbers1.add("2");
-		numbers1.add("3");
-
-		numbers2.add("5");
-		numbers2.add("2");
-		numbers2.add("7");
-
-		for (int i = 0; i < 3; i++) {
-			compareStrikeCountTest(numbers1.get(i),numbers2.get(i));
-		}
-
-		assertThat(strikeCount).isEqualTo(3);
-	}
-
-	void compareStrikeCountTest(String number1, String number2) {
-		if (number1.equals(number2)) {
+	void compareStrikeTest(int a, int b) {
+		if (a == b) {
 			strikeCount++;
 		}
 	}
 
 	@Test
-	@DisplayName("결과 출력")
-	void resultPrintTest() {
-		count = 2;			//맞춘 개수 결과
-		strikeCount = 1;	//맞춘 스트라이크 결과
-		int ballCount = count - strikeCount;
-		String result = "";
-		if (ballCount > 0) {
+	@DisplayName("정답체크 : 볼")
+	void ballChkTest() {
+		Iterator iter1 = numbers.iterator();
+		for (int i = 0; iter1.hasNext(); i++) {
+			ballChkTest((int)iter1.next(), inputNumbers, i);
+		}
 
+		assertThat(ballCount).isEqualTo(3);
+	}
+
+	void ballChkTest(int number1, Set<Integer> number2, int i) {
+		Iterator iter2 = inputNumbers.iterator();
+		for (int j = 0; iter2.hasNext(); j++) {
+			indexCompareTest(number1, (int)iter2.next(), i, j);
 		}
 	}
+
+	void indexCompareTest(int a, int b, int i, int j) {
+		if (i != j) {
+			compareballChkTest(a, b);
+		}
+	}
+
+	void compareballChkTest(int a, int b) {
+		if (a == b) {
+			ballCount++;
+		}
+	}
+
+
 }
