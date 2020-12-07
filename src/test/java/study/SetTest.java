@@ -75,7 +75,7 @@ public class SetTest {
 		);
 	}
 	int count = 0;
-	int StrikeCount = 0;
+	int strikeCount = 0;
 
 	@Test
 	void compareValue() {
@@ -100,32 +100,6 @@ public class SetTest {
 	void compareCountTest(List<String> numbers, String num) {
 		if (numbers.contains(num)) {
 			count++;
-		}
-	}
-
-	@Test
-	void strikeChkTest() {
-		List<String> numbers1 = new ArrayList<>();
-		List<String> numbers2 = new ArrayList<>();
-
-		numbers1.add("1");
-		numbers1.add("2");
-		numbers1.add("3");
-
-		numbers2.add("5");
-		numbers2.add("2");
-		numbers2.add("7");
-
-		for (int i = 0; i < 3; i++) {
-			compareStrikeCountTest(numbers1.get(i),numbers2.get(i));
-		}
-
-		assertThat(StrikeCount).isEqualTo(3);
-	}
-
-	void compareStrikeCountTest(String number1, String number2) {
-		if (number1.equals(number2)) {
-			StrikeCount++;
 		}
 	}
 }

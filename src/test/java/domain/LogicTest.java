@@ -1,9 +1,10 @@
-package baseball;
+package domain;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class logicTest {
+class LogicTest {
 
 	@Test
 	@DisplayName("번호생성")
@@ -67,9 +68,45 @@ class logicTest {
 		assertThat(strikes).isEqualTo(2);
 	}
 
-	@Test
-	@DisplayName("정답체크 : 맞춘 총 개수")
-	void compareCheck() {
+	int count = 0;
+	int strikeCount = 0;
 
+	@Test
+	@DisplayName("정답체크")
+	void strikeChkTest() {
+		List<String> numbers1 = new ArrayList<>();
+		List<String> numbers2 = new ArrayList<>();
+
+		numbers1.add("1");
+		numbers1.add("2");
+		numbers1.add("3");
+
+		numbers2.add("5");
+		numbers2.add("2");
+		numbers2.add("7");
+
+		for (int i = 0; i < 3; i++) {
+			compareStrikeCountTest(numbers1.get(i),numbers2.get(i));
+		}
+
+		assertThat(strikeCount).isEqualTo(3);
+	}
+
+	void compareStrikeCountTest(String number1, String number2) {
+		if (number1.equals(number2)) {
+			strikeCount++;
+		}
+	}
+
+	@Test
+	@DisplayName("결과 출력")
+	void resultPrintTest() {
+		count = 2;			//맞춘 개수 결과
+		strikeCount = 1;	//맞춘 스트라이크 결과
+		int ballCount = count - strikeCount;
+		String result = "";
+		if (ballCount > 0) {
+
+		}
 	}
 }
