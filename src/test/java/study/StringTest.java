@@ -18,7 +18,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import model.StudyModel;
 
 public class StringTest {
 
@@ -83,12 +82,12 @@ public class StringTest {
 	public void containMap() {
 		//given
 		Map<String, Object> studyModelTestMap = new HashMap<>();
-		List<StudyModel> personList = new ArrayList<>();
-		personList.add(new StudyModel("20", "jin0", "jin0"));
-		personList.add(new StudyModel("21", "jin1", "jin1"));
-		personList.add(new StudyModel("22", "jin2", "jin2"));
-		studyModelTestMap.put("list",personList);
-		studyModelTestMap.put("cnt",personList.size());
+		// List<StudyModel> personList = new ArrayList<>();
+		// personList.add(new StudyModel("20", "jin0", "jin0"));
+		// personList.add(new StudyModel("21", "jin1", "jin1"));
+		// personList.add(new StudyModel("22", "jin2", "jin2"));
+		// studyModelTestMap.put("list",personList);
+		// studyModelTestMap.put("cnt",personList.size());
 		//when
 
 		//then,.
