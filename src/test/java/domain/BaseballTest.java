@@ -2,6 +2,7 @@ package domain;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -15,13 +16,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class BaseballTest {
 	Baseball baseball = new Baseball();
-	int ballCount;
-	int strikeCount;
+	BallSet comNum = new BallSet();
 
 	@BeforeEach
 	void setInputValue() {
-		ballCount = 0;
-		strikeCount = 0;
+		comNum = new BallSet(Arrays.asList(1, 2, 3));
+
 	}
 
 	@Test
@@ -43,48 +43,24 @@ class BaseballTest {
 
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {"4 5 6"})
+	@DisplayName("볼 결과 테스트 : nothing")
+	void ballCountNTest(String input) {
 
+		Set<Integer> userNum = baseball.getBaseballNumber(input);
 
-
-
-	@Test
-	@DisplayName("정답체크 : 스트라이크")
-	void strikeCheckTest() {
-
-		assertThat(strikeCount).isEqualTo("2");
+		assertThat(baseball.ballChk(comNum.getBalls(), userNum)).isEqualTo(0);
 	}
-
-	void compareStrikeTest(int a, int b) {
-		if (a == b) {
-			strikeCount++;
-		}
-	}
-
-
 
 	@ParameterizedTest
-	@DisplayName("게임결과판단")
-	@CsvSource(value = {"1:1"}, delimiter = ':')
-	void gameResult(String ball, String strike) {
-		int ballValue = Integer.parseInt(ball);
-		int strikeValue = Integer.parseInt(strike);
-	//	assertThat(Logic.gameResult(ballValue,strikeValue).getTextData()).isEqualTo("1 볼 1 스트라이");
-	}
+	@ValueSource(strings = {"4 5 2"})
+	@DisplayName("볼 결과 테스트 : 1b")
+	void ballCountBTest(String input) {
 
+		Set<Integer> userNum = baseball.getBaseballNumber(input);
 
-	//-------------------------------------------------------------
-
-	@Test
-	@DisplayName("볼 결과 테스트 : nothing")
-	void ballCountNTest() {
-
-		//assertThat(ballcnt).isEqualTo("0");
-	}
-
-	@Test
-	@DisplayName("볼 결과 테스트 : ball")
-	void ballCountBTest() {
-		//assertThat(ballcnt).isEqualTo("1");
+		assertThat(baseball.ballChk(comNum.getBalls(), userNum)).isEqualTo(1);
 	}
 
 	@Test
@@ -102,4 +78,12 @@ class BaseballTest {
 		assertThat(chk).isTrue();
 	}
 
+	@ParameterizedTest
+	@DisplayName("게임결과판단")
+	@CsvSource(value = {"1:1"}, delimiter = ':')
+	void gameResult(String ball, String strike) {
+		int ballValue = Integer.parseInt(ball);
+		int strikeValue = Integer.parseInt(strike);
+		//	assertThat(Logic.gameResult(ballValue,strikeValue).getTextData()).isEqualTo("1 볼 1 스트라이");
+	}
 }

@@ -127,7 +127,7 @@ public class Baseball {
 				System.out.println(e.getMessage());
 				ViewUI viewUI = new ViewUI();
 				viewUI.baseballPrint(null);
-				input = viewUI.userInput();
+				valInput = viewUI.userInput();
 			}
 		}
 	}
@@ -137,4 +137,5 @@ public class Baseball {
 		boolean i = !Pattern.matches(pattern, input);
 		return i;
 	}
+
 }
