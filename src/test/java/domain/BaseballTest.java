@@ -28,7 +28,7 @@ class BaseballTest {
 	@DisplayName("번호생성")
 	public void numberCreateTest() {
 
-		assertThat(baseball.numberCreate()).contains(3);
+		assertThat(baseball.numberCreate().getBalls()).contains(3);
 	}
 
 	@DisplayName("입력 값 splite")
@@ -36,10 +36,10 @@ class BaseballTest {
 	@ValueSource(strings = {"4 6 2"})
 	void inputSpliteTest(String input) {
 
-		Set<Integer> inputNum = baseball.getBaseballNumber(input);
-		assertThat(inputNum)
+		BallSet inputNum = baseball.getBaseballNumber(input);
+		assertThat(inputNum.getBalls())
 			.contains(4)
-			.hasSize(inputNum.size() + 1);
+			.hasSize(inputNum.getBalls().size() + 1);
 
 	}
 
@@ -48,9 +48,9 @@ class BaseballTest {
 	@DisplayName("볼 결과 테스트 : nothing")
 	void ballCountNTest(String input) {
 
-		Set<Integer> userNum = baseball.getBaseballNumber(input);
+		BallSet userNum = baseball.getBaseballNumber(input);
 
-		assertThat(baseball.ballChk(comNum.getBalls(), userNum)).isEqualTo(0);
+		assertThat(baseball.ballChk(comNum, userNum)).isEqualTo(0);
 	}
 
 	@ParameterizedTest
@@ -58,19 +58,39 @@ class BaseballTest {
 	@DisplayName("볼 결과 테스트 : 1b")
 	void ballCountBTest(String input) {
 
-		Set<Integer> userNum = baseball.getBaseballNumber(input);
+		BallSet userNum = baseball.getBaseballNumber(input);
 
-		assertThat(baseball.ballChk(comNum.getBalls(), userNum)).isEqualTo(1);
+		assertThat(baseball.ballChk(comNum, userNum)).isEqualTo(1);
 	}
 
-	@Test
-	@DisplayName("스트라이크 결과 테스트 : ")
-	void strikeCountTest() {
-		//int strikeCnt = baseball.strikeCheck(numbers,inputNumbers);
-		//assertThat(strikeCnt).isEqualTo("1");
+	@ParameterizedTest
+	@ValueSource(strings = {"3 5 2"})
+	@DisplayName("스트라이크 결과 테스트 : nothing")
+	void strikeCountNTest(String input) {
+		BallSet userNum = baseball.getBaseballNumber(input);
+
+		assertThat(baseball.strikeCheck(comNum, userNum)).isEqualTo(1);
 	}
 
-	@DisplayName("숫자체크 ")
+	@ParameterizedTest
+	@ValueSource(strings = {"1 5 2", "6 8 3"})
+	@DisplayName("스트라이크 결과 테스트 : 1s")
+	void strikeCountSTest(String input) {
+		BallSet userNum = baseball.getBaseballNumber(input);
+
+		assertThat(baseball.strikeCheck(comNum, userNum)).isEqualTo(0);
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"1 2 3"})
+	@DisplayName("스트라이크 결과 테스트 : 3s")
+	void strikeCountTSTest(String input) {
+		BallSet userNum = baseball.getBaseballNumber(input);
+
+		assertThat(baseball.strikeCheck(comNum, userNum)).isEqualTo(0);
+	}
+
+	@DisplayName("숫자체크")
 	@ParameterizedTest
 	@ValueSource(strings = {"1", "2", "r", "0", "10"})
 	void setContains(String input) {

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Set;
 
+import domain.BallSet;
 import domain.Baseball;
 import view.ViewUI;
 import domain.GameResult;
@@ -10,11 +11,9 @@ public class BaseballMain {
 
 	public static void main(String[] args) {
 		Baseball baseball =  new Baseball();
-		Set<Integer> comNumbers = null;
-		Set<Integer> userNumbers;
 		ViewUI viewUI = new ViewUI();
 		GameResult result = new GameResult();
-
+		BallSet comNumbers = null;
 
 		while (true) {
 			//comNumbers가 null이면 생성
@@ -22,9 +21,8 @@ public class BaseballMain {
 
 			viewUI.baseballPrint(result);				//결과프린트
 			String inputValue = viewUI.userInput();		//입력 값
-			//inputValue - validation - error - 다시입력이 필요
 
-			userNumbers = baseball.getBaseballValidation(inputValue);
+			BallSet userNumbers = baseball.getBaseballValidation(inputValue);
 
 
 			result = baseball.gameResult(comNumbers, userNumbers);
