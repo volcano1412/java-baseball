@@ -35,14 +35,8 @@ class BaseballTest {
 	@ParameterizedTest
 	@ValueSource(strings = {"4 6 2"})
 	void inputSpliteTest(String input) {
-		Set<Integer> inputNum = new LinkedHashSet<Integer>();
 
-		input = input.replaceAll(" ", "");
-
-		for(int i = 0; i < input.length(); i++) {
-			inputNum.add(Integer.parseInt(String.valueOf(input.charAt(i))));
-		}
-
+		Set<Integer> inputNum = baseball.getBaseballNumber(input);
 		assertThat(inputNum)
 			.contains(4)
 			.hasSize(inputNum.size() + 1);
