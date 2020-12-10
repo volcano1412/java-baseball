@@ -1,11 +1,8 @@
 package domain;
 
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 
-import view.ViewUI;
 import vo.Constants;
 
 public class Baseball {
@@ -31,11 +28,10 @@ public class Baseball {
 	}
 
 
-	public BallSet getBaseballNumber(String input) {
+	public BallSet getBaseballNumber(String[] inputArr) {
 		BallSet inputNum = new BallSet();
-		input = input.replaceAll(" ", "");
-		for(int i = 0; i < input.length(); i++) {
-			String num = String.valueOf(input.charAt(i));
+		for(int i = 0; i < inputArr.length; i++) {
+			String num = inputArr[i];
 			inputNum.getBalls().add(Integer.parseInt(num));
 		}
 		return inputNum;
@@ -102,39 +98,48 @@ public class Baseball {
 		return comNumbers;
 	}
 
-	public BallSet getBaseballValidation(String input) {
-		String valInput = input;
-		Boolean valChk = false;
-		while(true) {
-			try {
-				if(valInput.length() == 5) {
-					throw new IllegalArgumentException("예외발생");
-				}
-				BallSet ballNum = getBaseballNumber(valInput);
-				if (ballNum.getBalls().size() != 3) {
-					throw new IllegalArgumentException("예외발생");
-				}
-				Iterator<Integer> iter = ballNum.getBalls().iterator();
-				while (iter.hasNext()) {
-					valChk = isNum(iter.next().toString());
-					if (valChk == true) {
-						throw new IllegalArgumentException("예외발생");
-					}
-				}
-				return ballNum;
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				ViewUI viewUI = new ViewUI();
-				viewUI.baseballPrint(null);
-				valInput = viewUI.userInput();
-			}
+	public BallSet getBaseball(String input) throws IllegalArgumentException {
+
+		String[] inputArr = input.split(" ");
+
+		if (inputArr.length != 3) {
+			throw new IllegalArgumentException("입력 형태 장애(데이터 사이에 스페이스바 2개 아님)");
 		}
+
+		// adasd 2 3
+		if (isNumber(inputArr)) {
+			throw new IllegalArgumentException("숫자입력이 아님");
+		}
+
+		BallSet ballset = getBaseballNumber(inputArr);
+
+		// 1 2 2 // 중복된 수를 입력함
+		if (isDulicate(ballset)) {
+			throw new IllegalArgumentException("숫자입력이 3개가 아님");
+		}
+		return ballset;
 	}
 
-	public Boolean isNum(String input) {
-		String pattern = "^[1-9]$";
-		boolean i = !Pattern.matches(pattern, input);
-		return i;
+	private boolean isDulicate(BallSet ballSet) {
+		if (ballSet.getBalls().size() == 3) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isNumber(String[] inputArr) {
+
+		try {
+			for (String str : inputArr) {
+
+				Integer.parseInt(str);
+			}
+		} catch (NumberFormatException e) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 }

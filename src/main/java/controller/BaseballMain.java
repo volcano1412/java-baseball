@@ -16,15 +16,19 @@ public class BaseballMain {
 		BallSet comNumbers = null;
 
 		while (true) {
-			//comNumbers가 null이면 생성
+			//comNumbers가 null이면 컴퓨터번호생성
 			comNumbers = baseball.comNumChk(comNumbers);
 
-			viewUI.baseballPrint(result);				//결과프린트
-			String inputValue = viewUI.userInput();		//입력 값
+			//결과프린트
+			viewUI.baseballPrint(result);
 
-			BallSet userNumbers = baseball.getBaseballValidation(inputValue);
+			//재시작? 종료?
 
 
+			//입력 값
+			BallSet userNumbers = getBaseballValidation();
+
+			//비교
 			result = baseball.gameResult(comNumbers, userNumbers);
 
 			//스트라이크 3이면 comNum 초기화
@@ -32,4 +36,19 @@ public class BaseballMain {
 
 		}
 	}
+
+	private static BallSet getBaseballValidation() {
+		Baseball baseball =  new Baseball();
+		ViewUI viewUI = new ViewUI();
+		BallSet ballSet;
+		try {
+			String inputValue = viewUI.userInput();
+			ballSet = baseball.getBaseball(inputValue);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			viewUI.baseballPrint(null);
+			ballSet = getBaseballValidation();
+		}
+		return ballSet;
+	}
+
 }
