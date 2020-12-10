@@ -57,9 +57,9 @@ public class Baseball {
 	}
 
 	//정답체크 볼
-	public int ballChk(BallSet numbers, BallSet inputNumbers) {
+	public int ballChk(BallSet comNumbers, BallSet inputNumbers) {
 		ballCount = 0;
-		Iterator iter1 = numbers.getBalls().iterator();
+		Iterator iter1 = comNumbers.getBalls().iterator();
 		for (int i = 0; iter1.hasNext(); i++) {
 			ballChk((int)iter1.next(), inputNumbers, i);
 		}
@@ -99,7 +99,7 @@ public class Baseball {
 		return comNumbers;
 	}
 
-	public BallSet getBaseball(String input) throws IllegalArgumentException {
+	public String getBaseballValidation(String input) throws IllegalArgumentException {
 
 		String[] inputArr = input.split(" ");
 
@@ -112,17 +112,24 @@ public class Baseball {
 			throw new IllegalArgumentException("숫자입력이 아님");
 		}
 
-		BallSet ballset = getBaseballNumber(inputArr);
+		// 1~9인지
+		for (String str : inputArr) {
+			numberValidation(str);
+		}
+
 
 		// 1 2 2 // 중복된 수를 입력함
-		if (isDulicate(ballset)) {
+		if (isDulicate(inputArr)) {
 			throw new IllegalArgumentException("숫자입력이 3개가 아님");
 		}
-		return ballset;
+		return input;
 	}
 
-	private boolean isDulicate(BallSet ballSet) {
-		if (ballSet.getBalls().size() == 3) {
+	private boolean isDulicate(String[] inputArr) {
+
+		BallSet ballset = getBaseballNumber(inputArr);
+
+		if (ballset.getBalls().size() == 3) {
 			return false;
 		}
 		return true;
@@ -152,10 +159,28 @@ public class Baseball {
 		return input;
 	}
 
+	public void numberValidation(String input) throws IllegalArgumentException {
+		String regex = "^[1-9]$";
+		Boolean match = Pattern.matches(regex, input);
+		if (!match) {
+			throw new IllegalArgumentException("1 ~ 9 입력이 아님");
+		}
+	}
+
 	public void gameExit() {
 		BaseballMain main = new BaseballMain();
 		if (main.restartInput().equals("2")) {
 			System.exit(0);
 		}
+	}
+
+	public BallSet getBaseballSet(String input) {
+		input = input.replace(" ","");
+		BallSet inputNum = new BallSet();
+		for(int i = 0; i < input.length(); i++) {
+			char num = input.charAt(i);
+			inputNum.getBalls().add(Character.getNumericValue(num));
+		}
+		return inputNum;
 	}
 }

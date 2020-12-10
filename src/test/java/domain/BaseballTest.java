@@ -34,7 +34,7 @@ class BaseballTest {
 	@ValueSource(strings = {"4 5 6"})
 	void inputSpliteTest(String input) {
 
-		BallSet inputNum = baseball.getBaseball(input);
+		BallSet inputNum = baseball.getBaseballSet(input);
 		assertThat(inputNum.getBalls())
 			.contains(4)
 			.hasSize(inputNum.getBalls().size() + 1);
@@ -46,7 +46,7 @@ class BaseballTest {
 	@DisplayName("볼 결과 테스트 : nothing")
 	void ballCountNTest(String input) {
 
-		BallSet userNum = baseball.getBaseball(input);
+		BallSet userNum = baseball.getBaseballSet(input);
 
 		assertThat(baseball.ballChk(comNum, userNum)).isEqualTo(0);
 	}
@@ -56,7 +56,7 @@ class BaseballTest {
 	@DisplayName("볼 결과 테스트 : 1b")
 	void ballCountBTest(String input) {
 
-		BallSet userNum = baseball.getBaseball(input);
+		BallSet userNum = baseball.getBaseballSet(input);
 
 		assertThat(baseball.ballChk(comNum, userNum)).isEqualTo(1);
 	}
@@ -65,7 +65,7 @@ class BaseballTest {
 	@ValueSource(strings = {"3 5 2"})
 	@DisplayName("스트라이크 결과 테스트 : nothing")
 	void strikeCountNTest(String input) {
-		BallSet userNum = baseball.getBaseball(input);
+		BallSet userNum = baseball.getBaseballSet(input);
 
 		assertThat(baseball.strikeCheck(comNum, userNum)).isEqualTo(1);
 	}
@@ -74,7 +74,7 @@ class BaseballTest {
 	@ValueSource(strings = {"1 5 2", "6 8 3"})
 	@DisplayName("스트라이크 결과 테스트 : 1s")
 	void strikeCountSTest(String input) {
-		BallSet userNum = baseball.getBaseball(input);
+		BallSet userNum = baseball.getBaseballSet(input);
 
 		assertThat(baseball.strikeCheck(comNum, userNum)).isEqualTo(0);
 	}
@@ -83,7 +83,7 @@ class BaseballTest {
 	@ValueSource(strings = {"1 2 3"})
 	@DisplayName("스트라이크 결과 테스트 : 3s")
 	void strikeCountTSTest(String input) {
-		BallSet userNum = baseball.getBaseball(input);
+		BallSet userNum = baseball.getBaseballSet(input);
 
 		assertThat(baseball.strikeCheck(comNum, userNum)).isEqualTo(0);
 	}
@@ -91,12 +91,12 @@ class BaseballTest {
 
 	@DisplayName("validation처리")
 	@ParameterizedTest
-	@ValueSource(strings = {"1 2 234"})
+	@ValueSource(strings = {"1 24"})
 	void validationChkTest(String input) {
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				baseball.getBaseball(input);
-			}).withMessageMatching("예외발생");
+			BallSet set = baseball.getBaseballSet(input);
+			}).withMessageMatching("입력 형태 장애");
 	}
 
 	@DisplayName("restart validation처리")
@@ -106,7 +106,7 @@ class BaseballTest {
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			String num = baseball.restartValidation(input);
-		}).withMessageMatching("1또는 2 입력이 아님");
+			}).withMessageMatching("1또는 2 입력이 아님 ");
 	}
 
 

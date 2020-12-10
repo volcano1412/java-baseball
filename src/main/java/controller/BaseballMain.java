@@ -26,7 +26,9 @@ public class BaseballMain {
 			restartChk(result);
 
 			//유저입력 값
-			BallSet userNumbers = getBaseballValidation();
+			String input = getBaseballValidation();
+
+			BallSet userNumbers = baseball.getBaseballSet(input);
 
 			//비교
 			result = baseball.gameResult(comNumbers, userNumbers);
@@ -36,24 +38,28 @@ public class BaseballMain {
 
 		}
 	}
+
 	public static void restartChk(GameResult result) {
 		if (result.getStrikeCount() == 3) {
 			baseball.gameExit();
 			viewUI.baseballPrint(new GameResult());
 		}
 	}
-	private static BallSet getBaseballValidation() {
-		BallSet ballSet;
+
+	//유저 숫자 입력 Validation
+	private static String getBaseballValidation() {
+		String input;
 		try {
 			String inputValue = viewUI.userInput();
-			ballSet = baseball.getBaseball(inputValue);
+			input = baseball.getBaseballValidation(inputValue);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			viewUI.baseballPrint(null);
-			ballSet = getBaseballValidation();
+			input = getBaseballValidation();
 		}
-		return ballSet;
+		return input;
 	}
 
+	//재시작여부 입력 Validation
 	public static String restartInput() {
 		String inputValue;
 		try {
