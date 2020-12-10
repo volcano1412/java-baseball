@@ -151,12 +151,8 @@ public class Baseball {
 		}
 		return input;
 	}
-	public void restart(GameResult result) {
-		if (result.getStrikeCount() == 3) {
-			restartChk();
-		}
-	}
-	private void restartChk() {
+
+	public void gameExit() {
 		BaseballMain main = new BaseballMain();
 		if (main.restartInput().equals("2")) {
 			System.exit(0);

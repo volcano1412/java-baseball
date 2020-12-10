@@ -8,10 +8,10 @@ import view.ViewUI;
 import domain.GameResult;
 
 public class BaseballMain {
+	private static Baseball baseball =  new Baseball();
+	private static ViewUI viewUI = new ViewUI();
 
 	public static void main(String[] args) {
-		Baseball baseball =  new Baseball();
-		ViewUI viewUI = new ViewUI();
 		GameResult result = new GameResult();
 		BallSet comNumbers = null;
 
@@ -23,7 +23,7 @@ public class BaseballMain {
 			viewUI.baseballPrint(result);
 
 			//결과 3strike : 재시작? 종료?
-			baseball.restart(result);
+			restartChk(result);
 
 			//유저입력 값
 			BallSet userNumbers = getBaseballValidation();
@@ -36,11 +36,13 @@ public class BaseballMain {
 
 		}
 	}
-
-
+	public static void restartChk(GameResult result) {
+		if (result.getStrikeCount() == 3) {
+			baseball.gameExit();
+			viewUI.baseballPrint(new GameResult());
+		}
+	}
 	private static BallSet getBaseballValidation() {
-		Baseball baseball =  new Baseball();
-		ViewUI viewUI = new ViewUI();
 		BallSet ballSet;
 		try {
 			String inputValue = viewUI.userInput();
@@ -53,8 +55,6 @@ public class BaseballMain {
 	}
 
 	public static String restartInput() {
-		Baseball baseball =  new Baseball();
-		ViewUI viewUI = new ViewUI();
 		String inputValue;
 		try {
 			inputValue = viewUI.userInput();
