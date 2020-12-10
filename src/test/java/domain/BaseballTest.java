@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
 
+import org.assertj.core.api.ThrowableTypeAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -96,6 +97,16 @@ class BaseballTest {
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 				baseball.getBaseball(input);
 			}).withMessageMatching("예외발생");
+	}
+
+	@DisplayName("restart validation처리")
+	@ParameterizedTest
+	@ValueSource(strings = {"3"})
+	void restartValidationTest(String input) {
+
+		assertThatIllegalArgumentException().isThrownBy(() -> {
+			String num = baseball.restartValidation(input);
+		}).withMessageMatching("1또는 2 입력이 아님");
 	}
 
 

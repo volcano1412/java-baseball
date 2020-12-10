@@ -3,6 +3,7 @@ package domain;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
+import controller.BaseballMain;
 import vo.Constants;
 
 public class Baseball {
@@ -142,4 +143,23 @@ public class Baseball {
 		return false;
 	}
 
+	public String restartValidation(String input) throws IllegalArgumentException {
+		String regex = "^[1-2]$";
+		Boolean match = Pattern.matches(regex, input);
+		if (!match) {
+			throw new IllegalArgumentException("1또는 2 입력이 아님");
+		}
+		return input;
+	}
+	public void restart(GameResult result) {
+		if (result.getStrikeCount() == 3) {
+			restartChk();
+		}
+	}
+	private void restartChk() {
+		BaseballMain main = new BaseballMain();
+		if (main.restartInput().equals("2")) {
+			System.exit(0);
+		}
+	}
 }
